@@ -1,4 +1,4 @@
-//BALLON SHOOTER WITH SOUND
+//BALLOON SHOOTER WITH MOUSE & SOUND SUPPORT
 #include<conio.h>
 #include<graphics.h>
 #include<dos.h>
