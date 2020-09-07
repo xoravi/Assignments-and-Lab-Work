@@ -1,0 +1,62 @@
+1. This tutorial contains a practice session for linking c++ and assembly language.
+2. It contains two programs separated by -----
+3. Create TWO separate files with the names suggested below.
+4. You should use the names as written below. You may try with a different name later.
+5. First create a file  'main.cpp', and type the section that is written in C++ after //----- till the end of that section
+6. Second create another file 'function.asm' and type the section written in x86 assembly after ;------ till the end of that section
+7. .cpp uses // for comments .asm uses ; for comments. 
+8. Inside the main program a function is called. This function returns a value through eax register.
+9. This practice session will give you an idea to combine program written in c++ and x86 assembly.
+10. For passing parameters from main program to function you have to consult chapter 14 of the following book
+11. 'x86-4 assembly language programming with ubuntu' by Ed Jorgensen.
+12. The reader are required to read all instruction carefully
+13. Pre-requisite : You must have 'nasm' and 'g++' installed under ubuntu
+14. The program is listed below.
+15. The instructions to compile/assemble in terminal is given in the end.
+
+//-----------------------------------
+// file name main.cpp a c++ program
+//
+#include <iostream>
+extern "C" int asm_function(void);
+using namespace std;
+
+int main() {
+	cout << "Assembly-Function returns " << asm_function() <<endl;
+	return 0;
+}
+//------end of c++ file ----------------
+
+;------------------------
+;File name function.asm written in x86 assembly language, Intel format
+section .text
+global asm_function
+asm_function:
+		mov eax,22
+		ret
+;--------end of .asm file---------------
+
+The follwowing is a summary along with the command to compile/assemble.
+The commands creates object files "function.o" and "main.o"separately.
+These two are linked together to create an executable/binary output file.
+You may try other formats later. Your first aim should be to make it functional.
+
+1. There are two files. One with .cpp extension and other with .asm extension. C++ files call a function asm_function written in x86 assembly language which return a value through eax register. 
+2. The function written in .asm file is to be declared as "extern" in C++ file
+3. The compilation and assembly process: Assemble function.asm file with nasm by typing the following in terminal
+   $ nasm -felf64 function.asm
+   This will create a object file funtion.o 
+4. Compile main.cpp with g++
+   $ g++ -c main.cpp
+   This will create an object file main.o
+5. Now these two files have to be linked. For linking run the following command
+   $ g++ -o outputfilename function.o main.o
+6. Run the final binary/executable outputfilename
+   $ ./outputfilename
+
+To see the assembly code of the final binary outputfile you may run the following:
+	$ objdump -M intel intel-mnemonic -D outputfile
+or you may redirect the objectdump to a file in place of console and read it later run the following command.
+	$ objdump -M intel intel-mnemonic -D outputfile > filename
+
+
